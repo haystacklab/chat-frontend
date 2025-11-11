@@ -3,7 +3,7 @@ import ChatInterface from './ChatInterface/ChatInterface';
 import AdminPanel from './AdminPanel/AdminPanel';
 import './App.css';
 
-const apiEndpoint = process.env.BACKEND_URL;
+const apiEndpoint = 'http://app-1/chat';
 
 
 function App() {
