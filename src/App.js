@@ -1,23 +1,44 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import ChatInterface from './ChatInterface/ChatInterface';
+import AdminPanel from './AdminPanel/AdminPanel';
 import './App.css';
 
 function App() {
+  const [currentView, setCurrentView] = useState('chat');
+  const [settings, setSettings] = useState({
+    apiEndpoint: 'http://localhost:3001/api/chat',
+    model: 'gpt-3.5-turbo',
+    temperature: 0.7,
+    maxTokens: 150
+  });
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header className="app-header">
+        <h1>LLM Chat Interface</h1>
+        <nav className="navigation">
+          <button
+            className={currentView === 'chat' ? 'active' : ''}
+            onClick={() => setCurrentView('chat')}
+          >
+            Chat
+          </button>
+          <button
+            className={currentView === 'admin' ? 'active' : ''}
+            onClick={() => setCurrentView('admin')}
+          >
+            Admin
+          </button>
+        </nav>
       </header>
+
+      <main className="main-content">
+        {currentView === 'chat' ? (
+          <ChatInterface settings={settings} />
+        ) : (
+          <AdminPanel settings={settings} setSettings={setSettings} />
+        )}
+      </main>
     </div>
   );
 }
