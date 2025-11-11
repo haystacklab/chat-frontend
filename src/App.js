@@ -3,10 +3,13 @@ import ChatInterface from './ChatInterface/ChatInterface';
 import AdminPanel from './AdminPanel/AdminPanel';
 import './App.css';
 
+const apiEndpoint = process.env.BACKEND_URL;
+
+
 function App() {
   const [currentView, setCurrentView] = useState('chat');
   const [settings, setSettings] = useState({
-    apiEndpoint: 'http://localhost:3001/api/chat',
+    apiEndpoint: apiEndpoint,
     model: 'gpt-3.5-turbo',
     temperature: 0.7,
     maxTokens: 150

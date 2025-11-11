@@ -13,6 +13,7 @@ permissions:
 env:
   IMAGE_NAME: chat-frontend
   ACR_LOGIN_SERVER: ${{ secrets.ACR_LOGIN_SERVER }}
+  BACKEND_URL: ${{ vars.BACKEND_URL }}
 
 jobs:
   build-and-deploy:
