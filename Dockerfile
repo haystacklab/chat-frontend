@@ -5,7 +5,7 @@ WORKDIR /app
 
 # Install dependencies
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm install
 
 # Build React app
 COPY . .
@@ -18,7 +18,7 @@ WORKDIR /app
 
 # Copy package files and install only production dependencies
 COPY package.json package-lock.json ./
-RUN npm ci --only=production
+# RUN npm ci --only=production
 
 # Copy built React app
 COPY --from=build /app/build ./build
