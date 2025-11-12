@@ -3,7 +3,8 @@ import ChatInterface from './ChatInterface/ChatInterface';
 import AdminPanel from './AdminPanel/AdminPanel';
 import './App.css';
 
-const apiEndpoint = 'http://app-1/chat';
+const API_BASE = '/api';
+const apiEndpoint = `${API_BASE}/chat`;
 
 
 function App() {

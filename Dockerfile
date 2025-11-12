@@ -1,33 +1,33 @@
-# Build stage
-FROM node:22-alpine AS build
-
-RUN node --version && npm --version
+# Stage 1: Build React app
+FROM node:18-alpine AS build
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
-
 # Install dependencies
-RUN npm install
+COPY package.json package-lock.json ./
+RUN npm ci
 
-# Copy all files
+# Build React app
 COPY . .
-
-# Build the app
 RUN npm run build
 
-# Production stage
-FROM nginx:alpine
+# Stage 2: Production with Node.js server
+FROM node:18-alpine
 
-# Copy built files to nginx
-COPY --from=build /app/build /usr/share/nginx/html
+WORKDIR /app
 
-# Copy custom nginx config (optional, see below)
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy package files and install only production dependencies
+COPY package.json package-lock.json ./
+RUN npm ci --only=production
 
-# Expose port 80
+# Copy built React app
+COPY --from=build /app/build ./build
+
+# Copy Express server
+COPY server.js ./
+
+# Expose port 80 (instead of nginx's 80)
 EXPOSE 80
 
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Run Node.js server
+CMD ["node", "server.js"]
